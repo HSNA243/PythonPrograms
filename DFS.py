@@ -20,11 +20,15 @@ def dfsRec(i,visits):
             dfsRec(j,visits)
 
 
-addedge(0, 1) 
 addedge(0, 2) 
 addedge(1, 2) 
+addedge(1, 3) 
+addedge(1, 4) 
 addedge(2, 0) 
+addedge(2, 1)
 addedge(2, 3) 
-addedge(3, 3) 
+addedge(3, 1)
+addedge(3, 2)
+addedge(4, 1) 
 
 dfs(d)
