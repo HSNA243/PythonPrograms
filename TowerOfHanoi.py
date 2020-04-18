@@ -7,15 +7,6 @@ for k in range(n):
 
 print(A,B,C)
 
-
-def toh(n, frm, to, aux):
-    if n == 1 :
-        print("Move 1 from",frm,"to",to)
-        return
-    toh(n-1, frm, aux, to)
-    print("Move",n,"from",frm,"to",to)
-    toh(n-1, aux, to, frm)
-
 def Tower2(n, frm, to, aux):
     if n == 1 :
         to.append(frm.pop())
