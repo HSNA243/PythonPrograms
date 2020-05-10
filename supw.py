@@ -8,5 +8,4 @@ dp[2] = a[2]
 for i in range(3,n):
     dp[i] = a[i] + min(dp[i-1],dp[i-2],dp[i-3])
 ans = min(dp[-3:])
-print(dp)
 print("the answer is",ans)
