@@ -1,23 +1,46 @@
 
 def CheckBox(hl,vl,p,r,c,ori):
+    n = len(hl)
     if ori == 'h':
-        if r-1>=0:
+        if r-1>=0 and r+1<n:
+            if hl[r-1][c] != '___' and vl[r-1][c] != '|' and vl[r-1][c+1] != '|' and hl[r+1][c] != '___' and vl[r][c] != '|' and vl[r][c+1] != '|':
+                return 2
+            if hl[r-1][c] != '___' and vl[r-1][c] != '|' and vl[r-1][c+1] != '|':
+                return True
+            if hl[r+1][c] != '___' and vl[r][c] != '|' and vl[r][c+1] != '|':
+                return True
+        elif r-1>=0 and r+1>=n:
             if hl[r-1][c] != '___' and vl[r-1][c] != '|' and vl[r-1][c+1] != '|':
                 return True
         else:
             if hl[r+1][c] != '___' and vl[r][c] != '|' and vl[r][c+1] != '|':
                 return True
     if ori == 'v':
-        if c-1>=0:
+        if c-1>=0 and c+1<n:
+            if vl[r][c-1] != '|' and hl[r][c-1] != '___' and hl[r+1][c-1] != '___' and vl[r][c+1] != '|' and hl[r][c] != '___' and hl[r+1][c] != '___':
+                return 2
+            if vl[r][c-1] != '|' and hl[r][c-1] != '___' and hl[r+1][c-1] != '___':
+                return True
+            if vl[r][c+1] != '|' and hl[r][c] != '___' and hl[r+1][c] != '___':
+                return True
+        elif c-1>=0 and c+1>=n:
             if vl[r][c-1] != '|' and hl[r][c-1] != '___' and hl[r+1][c-1] != '___':
                 return True
         else:
             if vl[r][c+1] != '|' and hl[r][c] != '___' and hl[r+1][c] != '___':
                 return True
+            
     return False
     
-
-
+def CheckBoxPrint(hl,vl,r,c):
+    if c+1 < n:
+        if vl[r][c+1] != '|' and hl[r][c] != '___' and hl[r+1][c] != '___':
+            return True
+    return False
+        
+hl = [['___','___'],['___',0],['___',0]]
+vl = [['|','|','|'],['|',0,0]]
+print(CheckBox(hl,vl,0,1,1,'v'))
 
 def GameOver(hl,vl):
     for i in range(len(hl)):
@@ -135,13 +158,16 @@ h1, v30, h23 etc.
                     if(i != (n-1)):
                         for k in range(len(vl[i])):
                             if(vl[i][k] != '|'):
-                                print('|',end = ' '*3)
+                                print('|',end='   ')
                             else:
-                                print(' '*3,end = '')
+                                print(' '*3,end = ' ')
                         print()
-            if CheckBox(hl,vl,0,r,c,player[0].lower())== True:
-                p0c+=1
-                while CheckBox(hl,vl,0,r,c,player[0].lower()) == True and GameOver(hl,vl)!=True:
+            if CheckBox(hl,vl,0,r,c,player[0].lower()) == True or CheckBox(hl,vl,0,r,c,player[0].lower()) == 2:
+                if CheckBox(hl,vl,0,r,c,player[0].lower()) == True:
+                    p0c+=1
+                else:
+                    p0c+=2
+                while (CheckBox(hl,vl,0,r,c,player[0].lower()) == True or CheckBox(hl,vl,0,r,c,player[0].lower()) == 2) == True and GameOver(hl,vl)!=True:
                     player=input("player 1 enter your move again: ")
                     rows=0
                     columns=0
@@ -178,12 +204,15 @@ h1, v30, h23 etc.
                             if(i != (n-1)):
                                 for k in range(len(vl[i])):
                                     if(vl[i][k] != '|'):
-                                        print('|',end = ' '*3)
+                                        print('|',end='   ')
                                     else:
-                                        print(' '*3,end = '')
+                                        print(' '*3,end = ' ')
                                 print()
-                    if CheckBox(hl,vl,0,r,c,player[0].lower())== True:
-                        p0c+=1
+                    if CheckBox(hl,vl,0,r,c,player[0].lower()) == True or CheckBox(hl,vl,0,r,c,player[0].lower()) == 2:
+                        if CheckBox(hl,vl,0,r,c,player[0].lower()) == True:
+                            p0c+=1
+                        else:
+                            p0c+=2
             if GameOver(hl,vl) == True:
                 break
             player=input("player 2 enter your move: ")
@@ -221,13 +250,19 @@ h1, v30, h23 etc.
                     if(i != (n-1)):
                         for k in range(len(vl[i])):
                             if(vl[i][k] != '|'):
-                                print('|',end = ' '*3)
+                                if CheckBoxPrint(hl,vl,i,k) == True:
+                                    print('|',end='    ')
+                                else:
+                                    print('|',end='   ')
                             else:
-                                print(' '*3,end = '')
+                                print(' '*3,end = ' ')
                         print()
-            if CheckBox(hl,vl,1,r,c,player[0].lower()) == True:
-                p1c+=1
-                while CheckBox(hl,vl,0,r,c,player[0].lower()) == True and GameOver(hl,vl)!=True:
+            if CheckBox(hl,vl,1,r,c,player[0].lower()) == True or CheckBox(hl,vl,1,r,c,player[0].lower()) == 2:
+                if CheckBox(hl,vl,1,r,c,player[0].lower()) == True:
+                    p1c+=1
+                else:
+                    p1c+=2
+                while (CheckBox(hl,vl,0,r,c,player[0].lower()) == True or CheckBox(hl,vl,1,r,c,player[0].lower()) == 2) and GameOver(hl,vl)!=True:
                     player=input("player 2 enter your move again: ")
                     rows=0
                     columns=0
@@ -263,13 +298,19 @@ h1, v30, h23 etc.
                             if(i != (n-1)):
                                 for k in range(len(vl[i])):
                                     if(vl[i][k] != '|'):
-                                        print('|',end = ' '*3)
+                                        print('|',end='   ')
                                     else:
-                                        print(' '*3,end = '')
+                                        print(' '*3,end = ' ')
                                 print()
-                    if CheckBox(hl,vl,1,r,c,player[0].lower()) == True:
-                        p1c+=1
-            
+                    if CheckBox(hl,vl,1,r,c,player[0].lower()) == True or CheckBox(hl,vl,1,r,c,player[0].lower()) == 2:
+                        if CheckBox(hl,vl,1,r,c,player[0].lower()) == True:
+                            p1c+=1
+                        else:
+                            p1c+=2
+        if p0c>p1c:
+            print('Player 1 won!')   
+        else:
+            print('Player 2 won!')
         print('Player 1 score:',p0c)
         print('Player 2 score:',p1c)
 
